@@ -3,9 +3,10 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 import mlflow
 import mlflow.sklearn
+import os
+import shutil
 
 if __name__ == "__main__":
-    
     df = pd.read_csv("clean_dataset.csv")
     X = df.drop('Fraud_Flag', axis=1).select_dtypes(include=['number']).astype(float)
     y = df['Fraud_Flag']
@@ -17,3 +18,7 @@ if __name__ == "__main__":
         rf.fit(X_train, y_train)
         
         mlflow.sklearn.log_model(rf, "model")
+        
+        if os.path.exists("saved_model"):
+            shutil.rmtree("saved_model")
+        mlflow.sklearn.save_model(rf, "saved_model")
