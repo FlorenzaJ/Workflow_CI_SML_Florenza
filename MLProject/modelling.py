@@ -5,7 +5,6 @@ import mlflow
 import mlflow.sklearn
 
 if __name__ == "__main__":
-    mlflow.set_experiment("CI_CD_Fraud_Detection")
     
     df = pd.read_csv("clean_dataset.csv")
     X = df.drop('Fraud_Flag', axis=1).select_dtypes(include=['number']).astype(float)
