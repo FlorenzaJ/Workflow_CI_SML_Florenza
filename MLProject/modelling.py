@@ -3,11 +3,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 import mlflow
 import mlflow.sklearn
-import os
-import shutil
 
-def train_basic_model():
-    mlflow.set_tracking_uri("sqlite:///mlflow.db")
+if __name__ == "__main__":
     mlflow.set_experiment("CI_CD_Fraud_Detection")
     
     df = pd.read_csv("clean_dataset.csv")
@@ -21,10 +18,3 @@ def train_basic_model():
         rf.fit(X_train, y_train)
         
         mlflow.sklearn.log_model(rf, "model")
-        
-        if os.path.exists("saved_model"):
-            shutil.rmtree("saved_model")
-        mlflow.sklearn.save_model(rf, "saved_model")
-
-if __name__ == "__main__":
-    train_basic_model()
